@@ -8,13 +8,27 @@
 import SwiftUI
 
 struct CustomComposableView: View {
+    
+    var message: String
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+     
+        
+            
+            ZStack {
+    
+                
+                
+            }
+            
+            
+        }
+        
     }
-}
 
 struct CustomComposableView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomComposableView()
+        CustomComposableView(message: "whatever")
     }
 }

@@ -27,30 +27,27 @@ struct CustomComposableDescriptionView: View {
                         .padding(.top)
                     
                     Text("""
-                        Replace this with a description of how to use this view.
-
-                        If the view accepts a parameter, provide a control to enter the input below.
+                        Just type in whatever you want and there will be an animation waiting for you!
                         """)
                     
-                    TextField("Enter an input value", text: $phrase)
+                    TextField("Enter something", text: $phrase)
                     
                 }
                 .padding(.bottom)
                 
             }
             
-            NavigationLink(destination: CustomComposableView()) {
-                SimpleListItemView(title: "My Composable View",
-                                   caption: "A brief description of my view")
+            NavigationLink(destination: CustomComposableView(message: phrase)) {
+                SimpleListItemView(title: "Thing",
+                                   caption: "The animation will say: \(phrase)")
             }
             
         }
         .padding()
-        .navigationTitle("My Composable View")
+        .navigationTitle("Random thing")
         
     }
 }
-
 struct CustomComposableDescriptionView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
