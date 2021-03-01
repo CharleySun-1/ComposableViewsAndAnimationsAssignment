@@ -20,23 +20,38 @@ struct CustomComposableView: View {
     // Whether to apply the animation
     @State private var useAnimation = false
     
-   
+    // The gradient colour that will be used in the shape later
+    var blueBackground = LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
+    
+    var grayBackground = LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
+    
+    var gradients: [LinearGradient] {
+        return [blueBackground, grayBackground, grayBackground]
+    }
+    
     // Initialize a timer that will fire in one second
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
-        Text("\(message)")
-            .font(Font
-                    .custom("Futura-Bold", size: 26.0, relativeTo: .largeTitle))
-       
+        ZStack {
+            
+            Text("\(message)")
+                .font(Font
+                        .custom("Futura-Bold", size: 26.0, relativeTo: .largeTitle)) { _ in
+                    withAnimation(Animation.easeInOut(duration: 0.5).delay(0.5))
+                    
+                }
+        }
+        
+        
     }
 }
-    
-    
-    struct CustomComposableView_Previews: PreviewProvider {
-        static var previews: some View {
-            CustomComposableView(message: "whatever")
-        }
+
+
+struct CustomComposableView_Previews: PreviewProvider {
+    static var previews: some View {
+        CustomComposableView(message: "whatever")
     }
+}
 
