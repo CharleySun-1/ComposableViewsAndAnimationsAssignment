@@ -36,12 +36,13 @@ struct CustomComposableView: View {
         
         ZStack {
             
-                    
-                }
+            Text("\(message)")
+                .font(Font
+                        .custom("Futura-Bold", size: 26.0, relativeTo: .largeTitle)) 
         }
         
-        
     }
+}
 
 
 
