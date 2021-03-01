@@ -27,13 +27,10 @@ struct CustomComposableView: View {
     @State private var opacityText = 0.0
     
     // The gradient colour that will be used in the shape later
-    var blueBackground = LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
+    @State var gradient = [Color.red, Color.purple, Color.orange]
+    @State var startPoint = UnitPoint(x: 0, y: 0)
+    @State var endPoint = UnitPoint(x: 0, y: 2)
     
-    var grayBackground = LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
-    
-    var gradients: [LinearGradient] {
-        return [blueBackground, grayBackground, grayBackground]
-    }
     
     // Initialize a timer that will fire in one second
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -48,7 +45,7 @@ struct CustomComposableView: View {
                 .opacity(opacityText)       // Applies only to views above
                 .foregroundColor(.white)
                 .padding()
-                .background(Color.red)
+                .background(LinearGradient)
                 .cornerRadius(25.0)
                 .opacity(opacityCentre)     // Applies only to views above
                 .padding()
