@@ -9,81 +9,41 @@ import SwiftUI
 
 struct CustomComposableView: View {
     
-    // MARK: Stored properties
+    @State private var shouldAnimate = false
     
-    // What to say?
+    @State var gradient = [Color.pink, Color.purple, Color.orange]
+      @State var startPoint = UnitPoint(x: 0, y: 0)
+      @State var endPoint = UnitPoint(x: 0, y: 2)
+    
     var message: String
     
-    @State private var selected = 0
-    
-    // Scale factor for the entire image
-    @State private var scaleFactor: CGFloat = 1.0
-    
-    
-    // Opacity of each part of the view
-    @State private var opacityOuter = 0.0
-    @State private var opacityMiddle = 0.0
-    @State private var opacityCentre = 0.0
-    @State private var opacityText = 0.0
-    
-    // The gradient colour that will be used in the shape later
-    @State var gradient = [Color.red, Color.purple, Color.orange]
-    @State var startPoint = UnitPoint(x: 0, y: 0)
-    @State var endPoint = UnitPoint(x: 0, y: 2)
-    
-    
-    // Initialize a timer that will fire in one second
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
     var body: some View {
-        
-        ZStack {
-            
-            Text("\(message)")
-                .font(Font.custom("Rockwell-Bold", size: 24.0, relativeTo: .largeTitle))
-                .bold()
-                .opacity(opacityText)       // Applies only to views above
-                .foregroundColor(.white)
-                .padding()
-                .background(LinearGradient)
-                .cornerRadius(25.0)
-                .opacity(opacityCentre)     // Applies only to views above
-                .padding()
-                .background(Color.orange)
-                .cornerRadius(30.0)
-                .opacity(opacityMiddle)     // Applies only to views above
-                .padding()
-                .background(Color.yellow)
-                .cornerRadius(35.0)
-                .opacity(opacityOuter)      // Applies only to views above
-                .scaleEffect(scaleFactor)   // Applies only to views above
-                .onReceive(timer) { input in
-                    
-                    withAnimation(Animation.easeIn(duration: 0.5).delay(0.5)) {
-                        opacityOuter = 1.0
-                    }
-                    withAnimation(Animation.easeIn(duration: 0.5).delay(1.0)) {
-                        opacityMiddle = 1.0
-                    }
-                    withAnimation(Animation.easeIn(duration: 0.5).delay(1.5)) {
-                        opacityCentre = 1.0
-                    }
-                    withAnimation(Animation.easeIn(duration: 0.5).delay(2.0)) {
-                        opacityText = 1.0
-                    }
-                    withAnimation(Animation.interpolatingSpring(mass: 0.75, stiffness: 0.9, damping: 0.75, initialVelocity: 8).delay(2.5)) {
-                        scaleFactor = 1.25
-                    }
-                    
-                    // Stop the timer from continuing to fire
-                    timer.upstream.connect().cancel()
-                    
+        Circle()
+            .fill(LinearGradient(gradient: Gradient(colors: self.gradient), startPoint: self.startPoint, endPoint: self.endPoint))
+            .frame(width: 100, height: 100)
+            .overlay(
+                ZStack {
+                    Text("\(message)")
+                        .font(Font.custom("Futura-Bold", size: 24.0, relativeTo: .largeTitle))
+                        .bold()
+                  
+                    Circle()
+                        .stroke(Color.purple, lineWidth: 100)
+                        .scaleEffect(shouldAnimate ? 1 : 0)
+                    Circle()
+                        .stroke(Color.red, lineWidth: 100)
+                        .scaleEffect(shouldAnimate ? 1.5 : 0)
+                    Circle()
+                        .stroke(Color.pink
+                    , lineWidth: 100)
+                        .scaleEffect(shouldAnimate ? 2 : 0)
                 }
-            
-            
-            
+                .opacity(shouldAnimate ? 0.0 : 0.2)
+                .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: false))
+        )
+        .onAppear {
+            self.shouldAnimate = true
         }
-        
     }
     
 }
